@@ -25,7 +25,7 @@ fn main() -> anyhow::Result<()> {
         .ok_or(anyhow!("Failed to find portal file"))?;
 
     match action {
-        Add {text} => portals::add_portal(portal_file, Portal::new(text)),
+        Add {label, path} => portals::add_portal(portal_file, Portal::new(label, path)),
         List => portals::list_portals(portal_file),
         Done {position} => portals::remove_portal(portal_file, position)
     }?;

@@ -7,7 +7,9 @@ pub enum Action {
     Add {
         /// The portal target path.
         #[structopt()]
-        text: String,
+        label: String,
+
+        path: String,
     },
     /// Remove an entry from the portal file by position.
     Done {

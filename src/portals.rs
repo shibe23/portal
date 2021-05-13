@@ -8,16 +8,13 @@ use std::fmt;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Portal {
-    pub text: String,
-
-    #[serde(with = "ts_seconds")]
-    pub created_at: DateTime<Utc>,
+    pub label: String,
+    pub path: String,
 }
 
 impl Portal {
-    pub fn new(text: String) -> Portal {
-        let created_at: DateTime<Utc> = Utc::now();
-        Portal { text, created_at }
+    pub fn new(label: String, path: String) -> Portal {
+        Portal { label, path }
     }
 }
 
@@ -81,7 +78,6 @@ pub fn list_portals(portal_path: PathBuf) -> Result<()> {
 
 impl fmt::Display for Portal {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let created_at = self.created_at.with_timezone(&Local).format("%F %H:%M");
-        write!(f, "{:<50} [{}]", self.text, created_at)
+        write!(f, "{:<50} [{}]", self.label, self.path)
     }
 }
