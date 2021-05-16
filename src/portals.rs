@@ -1,9 +1,9 @@
 use serde::Deserialize;
 use serde::Serialize;
-use std::fs::{File, OpenOptions};
-use std::path::PathBuf;
-use std::io::{Result, Seek, SeekFrom};
 use std::fmt;
+use std::fs::{File, OpenOptions};
+use std::io::{Result, Seek, SeekFrom};
+use std::path::PathBuf;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Portal {
@@ -58,7 +58,7 @@ pub fn remove_portal(portal_path: PathBuf, label: String) -> Result<()> {
                 &portals.remove(x);
                 file.set_len(0)?;
                 serde_json::to_writer(file, &portals)?;
-            },
+            }
             None => {
                 println!("Cannot find this label.");
             }
@@ -84,7 +84,7 @@ pub fn list_portals(portal_path: PathBuf) -> Result<()> {
     Ok(())
 }
 
-pub fn go_portal(portal_path: PathBuf, label:&String) -> Result<()> {
+pub fn go_portal(portal_path: PathBuf, label: &String) -> Result<()> {
     let file = OpenOptions::new().read(true).open(portal_path)?;
     let portals = collect_portals(&file)?;
 
@@ -95,7 +95,7 @@ pub fn go_portal(portal_path: PathBuf, label:&String) -> Result<()> {
         match index {
             Some(x) => {
                 println!("{}", &portals[x].path);
-            },
+            }
             None => {
                 println!("Cannot find this label.");
             }
@@ -107,7 +107,6 @@ pub fn go_portal(portal_path: PathBuf, label:&String) -> Result<()> {
 fn find_matched_portal_index(portals: &Vec<Portal>, label: &String) -> Option<usize> {
     portals.iter().position(|x| &x.label == label)
 }
-
 
 impl fmt::Display for Portal {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

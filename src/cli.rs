@@ -14,25 +14,22 @@ pub enum Action {
     /// Remove an entry from the portal file by position.
     Remove {
         #[structopt()]
-        label:String,
+        label: String,
     },
-    
+
     Go {
         /// Change Directory from the label.
         #[structopt()]
-        label: String,       
+        label: String,
     },
-    
+
     /// List all portals in the Portal file.
     List,
 }
 
 #[derive(Debug, StructOpt)]
-#[structopt(
-name = "Portal",
-about = "Change Directory Helper."
-)]
-pub struct CommandLineArgs{
+#[structopt(name = "Portal", about = "Change Directory Helper.")]
+pub struct CommandLineArgs {
     #[structopt(subcommand)]
     pub action: Action,
 
