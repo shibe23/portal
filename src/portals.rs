@@ -75,7 +75,7 @@ pub fn list_portals(portal_path: PathBuf) -> Result<()> {
     Ok(())
 }
 
-pub fn go_portals(portal_path: PathBuf, label:&String) -> Result<()> {
+pub fn go_portal(portal_path: PathBuf, label:&String) -> Result<()> {
     let file = OpenOptions::new().read(true).open(portal_path)?;
     let portals = collect_portals(&file)?;
 
