@@ -27,7 +27,7 @@ fn main() -> anyhow::Result<()> {
     match action {
         Add {label, path} => portals::add_portal(portal_file, Portal::new(label, path)),
         List => portals::list_portals(portal_file),
-        Done {position} => portals::remove_portal(portal_file, position),
+        Remove {label} => portals::remove_portal(portal_file, label),
         Go {label} => portals::go_portal(portal_file, &label)
     }?;
     Ok(())

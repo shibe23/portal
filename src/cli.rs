@@ -12,9 +12,9 @@ pub enum Action {
         path: String,
     },
     /// Remove an entry from the portal file by position.
-    Done {
+    Remove {
         #[structopt()]
-        position: usize,
+        label:String,
     },
     
     Go {

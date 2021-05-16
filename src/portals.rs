@@ -2,7 +2,7 @@ use serde::Deserialize;
 use serde::Serialize;
 use std::fs::{File, OpenOptions};
 use std::path::PathBuf;
-use std::io::{Result, Error, ErrorKind, Seek, SeekFrom};
+use std::io::{Result, Seek, SeekFrom};
 use std::fmt;
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -40,7 +40,7 @@ pub fn add_portal(portal_path: PathBuf, portal: Portal) -> Result<()> {
     Ok(())
 }
 
-pub fn remove_portal(portal_path: PathBuf, position: usize) -> Result<()> {
+pub fn remove_portal(portal_path: PathBuf, label: String) -> Result<()> {
     let file = OpenOptions::new()
         .read(true)
         .write(true)
@@ -48,13 +48,22 @@ pub fn remove_portal(portal_path: PathBuf, position: usize) -> Result<()> {
 
     let mut portals = collect_portals(&file)?;
 
-    if position == 0 || position > portals.len() {
-        return Err(Error::new(ErrorKind::InvalidInput, "Invalid Portal ID"));
+    if portals.is_empty() {
+        println!("Portal list is empty!");
+    } else {
+        let index = find_matched_portal_index(&portals, &label);
+        match index {
+            Some(x) => {
+                println!("{}", &portals[x].path);
+                &portals.remove(x);
+                file.set_len(0)?;
+                serde_json::to_writer(file, &portals)?;
+            },
+            None => {
+                println!("Cannot find this label.");
+            }
+        }
     }
-    portals.remove(position - 1);
-
-    file.set_len(0)?;
-    serde_json::to_writer(file, &portals)?;
     Ok(())
 }
 
