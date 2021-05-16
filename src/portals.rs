@@ -54,8 +54,34 @@ pub fn remove_portal(portal_path: PathBuf, label: String) -> Result<()> {
         let index = find_matched_portal_index(&portals, &label);
         match index {
             Some(x) => {
-                println!("{}", &portals[x].path);
                 &portals.remove(x);
+                file.set_len(0)?;
+                serde_json::to_writer(file, &portals)?;
+            }
+            None => {
+                println!("Cannot find this label.");
+            }
+        }
+    }
+    Ok(())
+}
+
+pub fn edit_portal(portal_path: PathBuf, label: String, path: String) -> Result<()> {
+    let file = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(portal_path)?;
+
+    let mut portals = collect_portals(&file)?;
+
+    if portals.is_empty() {
+        println!("Portal list is empty!");
+    } else {
+        let index = find_matched_portal_index(&portals, &label);
+        match index {
+            Some(x) => {
+                portals[x].label = label;
+                portals[x].path = path;
                 file.set_len(0)?;
                 serde_json::to_writer(file, &portals)?;
             }

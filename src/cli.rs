@@ -11,12 +11,17 @@ pub enum Action {
 
         path: String,
     },
-    /// Remove an entry from the portal file by position.
+    /// Remove an entry from the portal file by label.
     Remove {
         #[structopt()]
         label: String,
     },
-
+    /// Edit an entry from the portal file by label.
+    Edit {
+        #[structopt()]
+        label: String,
+        path: String,
+    },
     Go {
         /// Change Directory from the label.
         #[structopt()]
