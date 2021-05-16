@@ -16,6 +16,13 @@ pub enum Action {
         #[structopt()]
         position: usize,
     },
+    
+    Go {
+        /// Change Directory from the label.
+        #[structopt()]
+        label: String,       
+    },
+    
     /// List all portals in the Portal file.
     List,
 }

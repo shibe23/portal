@@ -1,4 +1,3 @@
-use chrono::{serde::ts_seconds, DateTime, Local, Utc};
 use serde::Deserialize;
 use serde::Serialize;
 use std::fs::{File, OpenOptions};
@@ -75,6 +74,31 @@ pub fn list_portals(portal_path: PathBuf) -> Result<()> {
 
     Ok(())
 }
+
+pub fn go_portals(portal_path: PathBuf, label:&String) -> Result<()> {
+    let file = OpenOptions::new().read(true).open(portal_path)?;
+    let portals = collect_portals(&file)?;
+
+    if portals.is_empty() {
+        println!("Portal list is empty!");
+    } else {
+        let index = find_matched_portal_index(&portals, label);
+        match index {
+            Some(x) => {
+                println!("{}", &portals[x].path);
+            },
+            None => {
+                println!("Cannot find this label.");
+            }
+        }
+    }
+    Ok(())
+}
+
+fn find_matched_portal_index(portals: &Vec<Portal>, label: &String) -> Option<usize> {
+    portals.iter().position(|x| &x.label == label)
+}
+
 
 impl fmt::Display for Portal {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

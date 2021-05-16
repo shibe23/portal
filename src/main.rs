@@ -17,7 +17,7 @@ fn find_default_portal_file() -> Option<PathBuf> {
 fn main() -> anyhow::Result<()> {
     let CommandLineArgs {
         action,
-        portal_file: portal_file,
+        portal_file
     } = CommandLineArgs::from_args();
 
     let portal_file = portal_file
@@ -27,7 +27,8 @@ fn main() -> anyhow::Result<()> {
     match action {
         Add {label, path} => portals::add_portal(portal_file, Portal::new(label, path)),
         List => portals::list_portals(portal_file),
-        Done {position} => portals::remove_portal(portal_file, position)
+        Done {position} => portals::remove_portal(portal_file, position),
+        Go {label} => portals::go_portals(portal_file, &label)
     }?;
     Ok(())
 }
