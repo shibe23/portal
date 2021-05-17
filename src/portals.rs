@@ -121,6 +121,7 @@ pub fn go_portal(portal_path: PathBuf, label: &String) -> Result<()> {
         match index {
             Some(x) => {
                 println!("{}", &portals[x].path);
+                std::process::exit(2);
             }
             None => {
                 println!("Cannot find this label.");

@@ -22,8 +22,8 @@ pub enum Action {
         label: String,
         path: String,
     },
+    /// Change Directory from the label.
     Go {
-        /// Change Directory from the label.
         #[structopt()]
         label: String,
     },
