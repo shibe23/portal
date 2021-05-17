@@ -4,7 +4,7 @@ Change Directory Helper.
 
 # Install
 
-You need to run `cargo run --release` currently.
+NOTE: You need to run `cargo run --release` before install.
 
 ```
 git clone git@github.com:shibe23/portal.git
